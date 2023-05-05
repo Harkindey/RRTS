@@ -10,24 +10,23 @@ type Props = {
 }
 
 const App:FC<Props> = ({todos, fetchTodos}) =>{
-  const [state, setState] = useState({counter: 0})
 
-  useEffect(() => {
+  const click = (): void=>{
     fetchTodos()
-  }, [])
-  
+  }
 
-  const onIncrement =():void=> {
-    setState(v=>({counter: v.counter+1}))
+  const renderList = ():JSX.Element[]=>{
+    return todos.map((todo)=>(
+    <div key={todo.id}>
+     {todo.id}. {todo.title}
+    </div>
+    ))
   }
-  const onDecrement =():void=> {
-    setState(v=>({counter: v.counter-1}))
-  }
+
   return (
     <div className="App">
-       <button onClick={onIncrement}>Increment</button>
-       <button onClick={onDecrement}>Decrement</button>
-       {state.counter}
+       <button onClick={click}>Fetch</button>
+       {renderList()}
     </div>
   );
 }
