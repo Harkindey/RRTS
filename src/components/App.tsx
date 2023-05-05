@@ -2,22 +2,27 @@ import React, { FC, useEffect, useState } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import { StoreState } from '../reducers';
-import { Todo, fetchTodos } from '../actions';
+import { Todo, deleteTodo, fetchTodos } from '../actions';
 
 type Props = {
   todos: Todo[];
-  fetchTodos: () => void
+  fetchTodos: () => void;
+  deleteTodo: typeof deleteTodo;
 }
 
-const App:FC<Props> = ({todos, fetchTodos}) =>{
+const App:FC<Props> = ({todos, fetchTodos, deleteTodo}) =>{
 
   const click = (): void=>{
     fetchTodos()
   }
 
+const onTodoClick = (id: number)=> {
+  deleteTodo(id)
+}
+
   const renderList = ():JSX.Element[]=>{
     return todos.map((todo)=>(
-    <div key={todo.id}>
+    <div key={todo.id} onClick={()=> onTodoClick(todo.id)}>
      {todo.id}. {todo.title}
     </div>
     ))
@@ -36,5 +41,6 @@ const mapStateToProps = ({todos}: StoreState) => {
 }
 
 export default connect(mapStateToProps, {
-  fetchTodos
+  fetchTodos,
+  deleteTodo
 })(App);
