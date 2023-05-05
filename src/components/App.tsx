@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import './App.css';
 
-type Props = {color:string}
+type Props = {}
 
-const App:FC<Props> = ({color}) =>{
+const App:FC<Props> = () =>{
   const [state, setState] = useState({counter: 0})
 
   const onIncrement =():void=> {
