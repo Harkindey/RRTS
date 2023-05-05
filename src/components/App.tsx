@@ -1,10 +1,21 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './App.css';
+import { connect } from 'react-redux';
+import { StoreState } from '../reducers';
+import { Todo, fetchTodos } from '../actions';
 
-type Props = {}
+type Props = {
+  todos: Todo[];
+  fetchTodos: () => void
+}
 
-const App:FC<Props> = () =>{
+const App:FC<Props> = ({todos, fetchTodos}) =>{
   const [state, setState] = useState({counter: 0})
+
+  useEffect(() => {
+    fetchTodos()
+  }, [])
+  
 
   const onIncrement =():void=> {
     setState(v=>({counter: v.counter+1}))
@@ -21,4 +32,10 @@ const App:FC<Props> = () =>{
   );
 }
 
-export default App;
+const mapStateToProps = ({todos}: StoreState) => {
+  return {todos}
+}
+
+export default connect(mapStateToProps, {
+  fetchTodos
+})(App);
